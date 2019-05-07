@@ -62,6 +62,20 @@ alias ll='ls -alF'
 alias ls='ls --color=auto'
 EOF
 
+  cat > /root/.bash_profile <<EOF
+# .bash_profile
+
+# If .bash_profile exists, bash doesn't read .profile
+if [[ -f ~/.profile ]]; then
+  . ~/.profile
+fi
+
+# If the shell is interactive and .bashrc exists, get the aliases and functions
+if [[ $- == *i* && -f ~/.bashrc ]]; then
+    . ~/.bashrc
+fi
+EOF
+
   # If bash-completion installed....
   `apk info -vv | grep -q 'bash-completion-[0-9]'` && echo "source /etc/profile.d/bash_completion.sh" >> /root/.bashrc
 
@@ -99,6 +113,7 @@ chmod 600 /root/.ssh/authorized_keys
 # Setup DO-Agent Docker
 if `apk info -vv | grep -q 'docker-[0-9]'`; then
   docker run \
+    -d \
     -v /proc:/host/proc:ro \
     -v /sys:/host/sys:ro \
     --restart always \
