@@ -1,10 +1,15 @@
 nano
-docker 
 wget 
 curl 
+ca-certificates
 grep
 sed
 git 
 bash 
+bash-completion
 coreutils 
+openssl
+haveged
+docker
 jq
+htop

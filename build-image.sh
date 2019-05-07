@@ -43,8 +43,8 @@ fi
 # Check if Alpine Version Repository File Exists - If not then make it
 if [ ! -f "$REPOSITORIES" ]; then
   cat > "$REPOSITORIES" <<EOF
-https://nl.alpinelinux.org/alpine/${ALPINE_VERSION}/main
-https://nl.alpinelinux.org/alpine/${ALPINE_VERSION}/community
+http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/main
+http://dl-cdn.alpinelinux.org/alpine/${ALPINE_VERSION}/community
 EOF
 fi
 

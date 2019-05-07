@@ -1,2 +1,2 @@
-https://nl.alpinelinux.org/alpine/v3.9/main
-https://nl.alpinelinux.org/alpine/v3.9/community
+http://dl-cdn.alpinelinux.org/alpine/v3.9/main
+http://dl-cdn.alpinelinux.org/alpine/v3.9/community

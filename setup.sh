@@ -4,12 +4,13 @@
 rc-update add sshd default
 
 # Configure networking
-cat > /etc/network/interfaces <<-EOF
+cat > /etc/network/interfaces <<EOF
+auto lo
 iface lo inet loopback
+auto eth0
 iface eth0 inet dhcp
-iface eth0 inet6 dhcp
+auto eth1
 iface eth1 inet dhcp
-iface eth1 inet6 dhcp
 EOF
 
 ln -s networking /etc/init.d/net.lo
@@ -47,6 +48,30 @@ EOF
   rc-update add docker boot
 fi
 
+if `apk info -vv | grep -q 'bash-completion-[0-9]'`; then
+  # Update BashRC
+  cat > /root/.bashrc <<EOF
+alias update='apk update && apk upgrade'
+export HISTTIMEFORMAT="%d/%m/%y %T "
+export TERM=xterm-color
+export CLICOLOR=1
+export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+EOF
+
+  # If bash-completion installed....
+  `apk info -vv | grep -q 'bash-completion-[0-9]'` && echo "source /etc/profile.d/bash_completion.sh" >> /root/.bashrc
+
+  # If nano installed....
+  `apk info -vv | grep -q 'nano-[0-9]'` && echo "export EDITOR='nano'" >> /root/.bashrc
+
+  # Set bash as default shell
+  sed -i 's|root:x:0:0:root:/root:/bin/ash|root:x:0:0:root:/root:/bin/bash|' /etc/passwd
+fi
+
 # Grab config from DigitalOcean metadata service
 cat > /bin/do-init <<-EOF
 #!/bin/sh
@@ -55,6 +80,8 @@ wget -T 5 http://169.254.169.254/metadata/v1/hostname    -q -O /etc/hostname
 wget -T 5 http://169.254.169.254/metadata/v1/public-keys -q -O /root/.ssh/authorized_keys
 wget -T 5 http://169.254.169.254/metadata/v1/vendor-data -q -O /var/lib/cloud/instance/vendor-data.txt
 wget -T 5 http://169.254.169.254/metadata/v1/user-data -q -O /var/lib/cloud/instance/user-data.txt
+wget -T 5 http://169.254.169.254/metadata/v1/dns/nameservers -q -O - | sed 's|^|nameserver |' > /etc/resolv.conf
+chmod 0644 /etc/resolv.conf
 
 setup-timezone -z $(wget -T 5 -q -O - http://169.254.169.254/metadata/v1/region | \
   sed -r 's|AMS[0-9]+|Europe/Amsterdam|I' | \
