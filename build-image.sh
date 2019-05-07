@@ -48,13 +48,14 @@ https://nl.alpinelinux.org/alpine/${ALPINE_VERSION}/community
 EOF
 fi
 
-# [Optional] Additional Packages List in packages.txt
-PACKAGES='jq openssh e2fsprogs-extra $([ -f "{DIR}/packages.txt" ] && cat "${DIR}/packages.txt" | sed "/^#/d" | tr $"\n" " ")'
-
 ./alpine-make-vm-image/alpine-make-vm-image \
   --packages "$PACKAGES" \
   --repositories "$REPOSITORIES" \
   --script-chroot \
   --image-format qcow2 "${OUTPUT_DIR}/${FILENAME}.qcow2" \
   -- ./setup.sh
-bzip2 -z "${OUTPUT_DIR}/${FILENAME}.qcow2"
+if [ $? == 0 ]; then
+  bzip2 -z "${OUTPUT_DIR}/${FILENAME}.qcow2"
+else
+  [ -f "${FILENAME}.qcow2" ] && rm "${FILENAME}.qcow2"
+fi
