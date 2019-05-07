@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Configure TimeZone
+setup-timezone -z Europe/Prague
+
 # Enable openssh server
 rc-update add sshd default
 
@@ -48,3 +51,4 @@ chmod +x /bin/do-init
 
 # Enable do-init service
 rc-update add do-init default
+

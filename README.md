@@ -4,6 +4,10 @@ This is a tool to generate an Alpine Linux custom image for Digital Ocean. This 
 
 Once these prerequisites are installed run:
 
-`# ./build-3.8-image.sh`
+`# ./build-image.sh 3.9`
 
-This will produce `alpine-virt-$TIMESTAMP.qcow2.bz2` which can then be uploaded to Digital Ocean and used to create your droplet. Check out their instructions at https://blog.digitalocean.com/custom-images/ for uploading the image and creating your droplet.
+This will produce `alpine-v3.9-virt-$TIMESTAMP.qcow2.bz2` which can then be uploaded to Digital Ocean and used to create your droplet. Check out their instructions at https://blog.digitalocean.com/custom-images/ for uploading the image and creating your droplet.
+
+If you want to install custom packages, you can add a package.txt file into the script (see example)
+
+You may also supply a repositories-v3.9.txt file to set the alpine repositories.

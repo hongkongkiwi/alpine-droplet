@@ -1,0 +1,16 @@
+nano
+#python-dev 
+#libffi-dev 
+#openssl-dev 
+#gcc 
+#libc-dev 
+#make 
+docker 
+docker-compose 
+wget 
+curl 
+grep
+sed
+git 
+bash 
+coreutils 
