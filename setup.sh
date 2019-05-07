@@ -58,13 +58,13 @@ wget -T 5 http://169.254.169.254/metadata/v1/user-data -q -O /var/lib/cloud/inst
 
 setup-timezone -z $(wget -T 5 -q -O - http://169.254.169.254/metadata/v1/region | \
   sed -r 's|AMS[0-9]+|Europe/Amsterdam|I' | \
-  sed -r 's|BLR[0-9]+|Europe/Berlin|I' | \
-  sed -r 's|FRA[0-9]+|Europe/France|I' | \
+  sed -r 's|BLR[0-9]+|Asia/Kolkata|I' | \
+  sed -r 's|FRA[0-9]+|Europe/Frankfurt|I' | \
   sed -r 's|LON[0-9]+|Europe/London|I' | \
   sed -r 's|NYC[0-9]+|America/New_York|I' | \
   sed -r 's|SFO[0-9]+|America/San_Francisco|I' | \
   sed -r 's|SGP[0-9]+|Asia/Singapore|I' | \
-  sed -r 's|TOR[0-9]+|Asia/Kolkata|I')
+  sed -r 's|TOR[0-9]+|America/Toronto|I')
 
 hostname -F /etc/hostname
 chmod 600 /root/.ssh/authorized_keys
